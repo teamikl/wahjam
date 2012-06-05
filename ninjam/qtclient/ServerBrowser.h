@@ -55,7 +55,6 @@ private slots:
 
 private:
   QNetworkAccessManager *manager;
-  QNetworkReply *reply;
 };
 
 #endif
