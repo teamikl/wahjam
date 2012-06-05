@@ -80,6 +80,7 @@ MainWindow::MainWindow(QWidget *parent)
   client.SetLocalChannelMonitoring(0, false, 0.0f, false, 0.0f, false, false, false, false);
 
   manager = new QNetworkAccessManager(this);
+  manager->setObjectName("network-access-manager");
 
   connectAction = new QAction(tr("&Connect..."), this);
   connect(connectAction, SIGNAL(triggered()), this, SLOT(ShowConnectDialog()));

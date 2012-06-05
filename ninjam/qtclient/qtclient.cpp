@@ -22,6 +22,10 @@
 
 #include "MainWindow.h"
 
+// XXX: this adhoc include was just for temporary demo,
+//      load as plugin is right place.
+#include "dockServerBrowser.cpp"
+
 QSettings *settings;
 
 static void portAudioCleanup()
@@ -51,6 +55,7 @@ int main(int argc, char *argv[])
   atexit(portAudioCleanup);
 
   MainWindow mainWindow;
+  install_dockServerBrowser(&mainWindow);
   mainWindow.show();
 
   /* Show the connection dialog right away, except on first start when the user

@@ -12,6 +12,7 @@ TARGET =
 DEPENDPATH += .
 INCLUDEPATH += .
 QT += network
+QT += script
 
 QMAKE_CXXFLAGS += -Wno-write-strings
 LIBS += -lm -lvorbisenc -lvorbis -logg
