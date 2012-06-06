@@ -629,6 +629,19 @@ bool reloadConfig(int argc, char **argv, bool firstTime)
   return g_server->setConfig(&g_config);
 }
 
+#ifdef _WIN32
+BOOL WINAPI winCtrlHandler(DWORD event)
+{
+  switch (event) {
+  case CTRL_C_EVENT:
+    qApp->quit();
+    break;
+  }
+  return TRUE;
+}
+#endif
+
+
 int main(int argc, char **argv)
 {
   QCoreApplication app(argc, argv);
@@ -686,6 +699,8 @@ int main(int argc, char **argv)
 
 #ifndef _WIN32
   SignalHandler *sigHandler = new SignalHandler(argc, argv);
+#else
+  SetConsoleCtrlHandler((PHANDLER_ROUTINE)winCtrlHandler, TRUE);
 #endif
 
   app.exec();
