@@ -17,6 +17,7 @@
 */
 
 #include <portaudio.h>
+#include <QComboBox>
 #include <QPushButton>
 #include <QFormLayout>
 #include <QVBoxLayout>

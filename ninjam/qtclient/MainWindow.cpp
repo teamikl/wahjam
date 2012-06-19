@@ -16,25 +16,33 @@
     Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 */
 
+#include <QDir>
+#include <QDateTime>
+#include <QDesktopServices>
+#include <QRegExp>
+#include <QUrl>
+#include <QAction>
 #include <QApplication>
+#include <QInputDialog>
+#include <QLabel>
+#include <QLineEdit>
 #include <QMessageBox>
-#include <QVBoxLayout>
+#include <QMenu>
+#include <QMenuBar>
 #include <QPushButton>
 #include <QSplitter>
-#include <QMenuBar>
-#include <QMenu>
+#include <QState>
+#include <QStateMachine>
 #include <QStatusBar>
-#include <QDateTime>
-#include <QDir>
-#include <QDesktopServices>
-#include <QUrl>
-#include <QInputDialog>
-#include <QRegExp>
-
-#include "MainWindow.h"
+#include <QVBoxLayout>
+#include <QNetworkAccessManager>
+#include "ChannelTreeWidget.h"
+#include "ChatOutput.h"
 #include "ConnectDialog.h"
+#include "MetronomeBar.h"
 #include "PortAudioConfigDialog.h"
 #include "../njmisc.h"
+#include "MainWindow.h"
 
 MainWindow *MainWindow::instance; /* singleton */
 

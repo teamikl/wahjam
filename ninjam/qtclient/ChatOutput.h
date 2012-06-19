@@ -19,9 +19,9 @@
 #ifndef _CHATOUTPUT_H_
 #define _CHATOUTPUT_H_
 
-#include <QRegExp>
 #include <QTextBrowser>
 
+class QRegExp;
 
 class ChatOutput : public QTextBrowser
 {

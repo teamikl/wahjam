@@ -16,7 +16,14 @@
     Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 */
 
+#include <QUrl>
+#include <QString>
 #include <QRegExp>
+#include <QTextStream>
+#include <QTreeWidgetItem>
+#include <QNetworkAccessManager>
+#include <QNetworkRequest>
+
 #include "ServerBrowser.h"
 
 

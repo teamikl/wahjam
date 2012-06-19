@@ -20,7 +20,8 @@
 #define _PORTAUDIOCONFIGDIALOG_H_
 
 #include <QDialog>
-#include <QComboBox>
+
+class QComboBox;
 
 class PortAudioConfigDialog : public QDialog
 {

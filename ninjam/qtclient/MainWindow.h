@@ -20,22 +20,24 @@
 #define _MAINWINDOW_H_
 
 #include <QMainWindow>
-#include <QWidget>
-#include <QLineEdit>
-#include <QLabel>
 #include <QMutex>
-#include <QAction>
-#include <QUrl>
-#include <QStateMachine>
-#include <QState>
-#include <QNetworkAccessManager>
 
 #include "qtclient.h"
-#include "ChannelTreeWidget.h"
-#include "MetronomeBar.h"
-#include "ChatOutput.h"
 #include "../njclient.h"
 #include "../audiostream.h"
+
+class QUrl;
+class QAction;
+class QLabel;
+class QLineEdit;
+class QState;
+class QStateMachine;
+class QWidget;
+class QNetworkAccessManager;
+
+class ChannelTreeWidget;
+class ChatOutput;
+class MetronomeBar;
 
 class MainWindow : public QMainWindow
 {

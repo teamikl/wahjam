@@ -20,11 +20,12 @@
 #define _CONNECTDIALOG_H_
 
 #include <QDialog>
-#include <QLineEdit>
-#include <QCheckBox>
-#include <QComboBox>
-#include <QNetworkAccessManager>
 #include "ServerBrowser.h"
+
+class QLineEdit;
+class QCheckBox;
+class QComboBox;
+class QNetworkAccessManager;
 
 class ConnectDialog : public QDialog
 {
