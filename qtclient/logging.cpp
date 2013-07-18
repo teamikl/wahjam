@@ -22,7 +22,9 @@
 
 static FILE *logfp;
 
-static void logMsgHandler(QtMsgType type, const char *msg)
+static void logMsgHandler(QtMsgType type,
+                          const QMessageLogContext& Q_UNUSED(context),
+                          const QString& msg)
 {
   Q_ASSERT(logfp != NULL);
 
@@ -46,7 +48,7 @@ static void logMsgHandler(QtMsgType type, const char *msg)
   }
 
   QString timestamp(QDateTime::currentDateTime().toUTC().toString("MMM dd yyyy hh:mm:ss"));
-  fprintf(logfp, "%s %s: %s\n", timestamp.toUtf8().data(), typestr, msg);
+  fprintf(logfp, "%s %s: %s\n", timestamp.toUtf8().data(), typestr, msg.toUtf8().data());
 }
 
 /* Called at startup */
@@ -138,7 +140,7 @@ void logInit(const QString &filename)
   setvbuf(logfp, NULL, _IOLBF, 0); /* use line buffering */
 #endif
 
-  qInstallMsgHandler(logMsgHandler);
+  qInstallMessageHandler(logMsgHandler);
 
   qDebug(APPNAME " %s (%s)", VERSION, COMMIT_ID);
   logSystemInformation();

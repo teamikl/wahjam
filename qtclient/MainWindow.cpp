@@ -359,7 +359,7 @@ void MainWindow::Connect(const QString &host, const QString &user, const QString
 
     portMidiStreamer.stop();
 
-    QDir basedir(QDesktopServices::storageLocation(QDesktopServices::DataLocation));
+    QDir basedir(QStandardPaths::writableLocation(QStandardPaths::DataLocation));
     QString filename = basedir.filePath("log.txt");
     QUrl url = QUrl::fromLocalFile(filename);
 
@@ -388,7 +388,7 @@ void MainWindow::Connect(const QString &host, const QString &user, const QString
 
   setWindowTitle(tr(APPNAME " - %1").arg(host));
 
-  client.Connect(host.toAscii().data(),
+  client.Connect(host.toLatin1().data(),
                  user.toUtf8().data(),
                  pass.toUtf8().data());
 }
@@ -448,7 +448,7 @@ void MainWindow::resetReconnect()
 
 bool MainWindow::setupWorkDir()
 {
-  QDir basedir(QDesktopServices::storageLocation(QDesktopServices::DataLocation));
+  QDir basedir(QStandardPaths::writableLocation(QStandardPaths::DataLocation));
 
   /* The app data directory might not exist, so create it */
   if (!basedir.mkpath(basedir.absolutePath())) {

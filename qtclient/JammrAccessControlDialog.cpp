@@ -23,6 +23,7 @@
 #include <QMessageBox>
 #include <QDomDocument>
 #include <QDomNode>
+#include <QUrlQuery>
 
 #include "JammrAccessControlDialog.h"
 
@@ -78,12 +79,15 @@ void JammrAccessControlDialog::setWidgetsEnabled(bool enable)
 
 void JammrAccessControlDialog::refresh()
 {
+  QUrlQuery query;
+  query.addQueryItem("format", "xml");
+
   QUrl aclUrl(apiUrl);
   aclUrl.setPath(apiUrl.path() + QString("acls/%2/").arg(server));
-  aclUrl.addQueryItem("format", "xml");
+  aclUrl.setQuery(query);
 
   QNetworkRequest request(aclUrl);
-  request.setRawHeader("Referer", aclUrl.toString(QUrl::RemoveUserInfo).toAscii().data());
+  request.setRawHeader("Referer", aclUrl.toString(QUrl::RemoveUserInfo).toLatin1().data());
 
   qDebug("Fetching access control list at %s",
          aclUrl.toString(QUrl::RemoveUserInfo).toLatin1().constData());
@@ -202,7 +206,7 @@ void JammrAccessControlDialog::applyChanges()
 
   QNetworkRequest request(aclUrl);
   request.setHeader(QNetworkRequest::ContentTypeHeader, "application/x-www-form-urlencoded");
-  request.setRawHeader("Referer", aclUrl.toString(QUrl::RemoveUserInfo).toAscii().data());
+  request.setRawHeader("Referer", aclUrl.toString(QUrl::RemoveUserInfo).toLatin1().data());
 
   QByteArray formData;
   formData.append(QString("mode=%1").arg(allowRadio->isChecked() ? "allow" : "block"));

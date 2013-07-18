@@ -3,6 +3,8 @@ CONFIG += staticlib
 QT += network
 QT -= gui
 QMAKE_CXXFLAGS += -Wno-write-strings
+CONFIG += link_pkgconfig
+PKGCONFIG += portaudio-2.0 portmidi ogg vorbis vorbisenc
 win32:DEFINES -= UNICODE
 SOURCES = audiostream_pa.cpp \
           mpb.cpp \

@@ -23,6 +23,7 @@
 #include <QMessageBox>
 #include <QDomDocument>
 #include <QDomNode>
+#include <QUrlQuery>
 
 #include "JammrConnectDialog.h"
 
@@ -84,12 +85,15 @@ void JammrConnectDialog::loadServerList()
 
 void JammrConnectDialog::createJam()
 {
+  QUrlQuery query;
+  query.addQueryItem("format", "xml");
+
   QUrl livejamsUrl(apiUrl);
   livejamsUrl.setPath(apiUrl.path() + "livejams/");
-  livejamsUrl.addQueryItem("format", "xml");
+  livejamsUrl.setQuery(query);
 
   QNetworkRequest request(livejamsUrl);
-  request.setRawHeader("Referer", livejamsUrl.toString(QUrl::RemoveUserInfo).toAscii().constData());
+  request.setRawHeader("Referer", livejamsUrl.toString(QUrl::RemoveUserInfo).toLatin1().constData());
 
   /* Cannot use NetworkAccessManager::post() without data to submit */
   reply = netManager->sendCustomRequest(request, "POST");
