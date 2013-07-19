@@ -23,9 +23,10 @@
 static FILE *logfp;
 
 static void logMsgHandler(QtMsgType type,
-                          const QMessageLogContext& Q_UNUSED(context),
+                          const QMessageLogContext& context,
                           const QString& msg)
 {
+  Q_UNUSED(context);
   Q_ASSERT(logfp != NULL);
 
   const char *typestr;
