@@ -65,6 +65,15 @@ MainWindow *MainWindow::GetInstance()
   return instance;
 }
 
+QDir MainWindow::GetDataLocation()
+{
+#if QT_VERSION >= QT_VERSION_CHECK(5, 0, 0)
+  return QStandardPaths::writableLocation(QStandardPaths::DataLocation);
+#else
+  return QDesktopServices::storageLocation(QDesktopServices::DataLocation);
+#endif
+}
+
 MainWindow::MainWindow(QWidget *parent)
   : QMainWindow(parent), audio(NULL),
     vstMidiInputQueue(128)
@@ -359,7 +368,7 @@ void MainWindow::Connect(const QString &host, const QString &user, const QString
 
     portMidiStreamer.stop();
 
-    QDir basedir(QStandardPaths::writableLocation(QStandardPaths::DataLocation));
+    QDir basedir(GetDataLocation());
     QString filename = basedir.filePath("log.txt");
     QUrl url = QUrl::fromLocalFile(filename);
 
@@ -448,7 +457,7 @@ void MainWindow::resetReconnect()
 
 bool MainWindow::setupWorkDir()
 {
-  QDir basedir(QStandardPaths::writableLocation(QStandardPaths::DataLocation));
+  QDir basedir(GetDataLocation());
 
   /* The app data directory might not exist, so create it */
   if (!basedir.mkpath(basedir.absolutePath())) {

@@ -21,6 +21,7 @@
 #include <arpa/inet.h>
 #endif
 
+#include <inttypes.h>
 #include <sys/types.h>
 #include <sys/stat.h>
 #include <QTcpSocket>

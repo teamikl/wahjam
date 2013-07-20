@@ -19,7 +19,6 @@
 #include <QNetworkRequest>
 #include <QCryptographicHash>
 #include <QDomDocument>
-#include <QUrlQuery>
 
 #include "common/UserPrivs.h"
 
@@ -30,13 +29,9 @@ JammrUserLookup::JammrUserLookup(const QUrl &apiUrl,
                                  const QString &apiServerName,
                                  int max_channels_, const QString &username_)
 {
-  QUrlQuery query;
-  query.addQueryItem("server", apiServerName);
-  query.addQueryItem("format", "xml");
-
   tokenUrl = apiUrl;
   tokenUrl.setPath(apiUrl.path() + "tokens/" + username_ + "/");
-  tokenUrl.setQuery(query);
+  tokenUrl.setQuery(QString("format=xml&server=%1").arg(apiServerName));
 
   max_channels = max_channels_;
   username.Set(username_.toUtf8().data());

@@ -23,7 +23,6 @@
 #include <QMessageBox>
 #include <QDomDocument>
 #include <QDomNode>
-#include <QUrlQuery>
 
 #include "JammrAccessControlDialog.h"
 
@@ -79,12 +78,9 @@ void JammrAccessControlDialog::setWidgetsEnabled(bool enable)
 
 void JammrAccessControlDialog::refresh()
 {
-  QUrlQuery query;
-  query.addQueryItem("format", "xml");
-
   QUrl aclUrl(apiUrl);
   aclUrl.setPath(apiUrl.path() + QString("acls/%2/").arg(server));
-  aclUrl.setQuery(query);
+  aclUrl.setQuery("format=xml");
 
   QNetworkRequest request(aclUrl);
   request.setRawHeader("Referer", aclUrl.toString(QUrl::RemoveUserInfo).toLatin1().data());

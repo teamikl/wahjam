@@ -30,6 +30,7 @@
 #include <QStateMachine>
 #include <QState>
 #include <QNetworkAccessManager>
+#include <QDir>
 
 #include "qtclient.h"
 #include "ChannelTreeWidget.h"
@@ -54,6 +55,8 @@ public:
   void Connect(const QString &host, const QString &user, const QString &pass);
 
   static MainWindow *GetInstance();
+
+  static QDir GetDataLocation();
 
 signals:
   void Connecting();

@@ -22,11 +22,8 @@
 
 static FILE *logfp;
 
-static void logMsgHandler(QtMsgType type,
-                          const QMessageLogContext& context,
-                          const QString& msg)
+static void logMsgHandler(QtMsgType type, const char *msg)
 {
-  Q_UNUSED(context);
   Q_ASSERT(logfp != NULL);
 
   const char *typestr;
@@ -49,8 +46,19 @@ static void logMsgHandler(QtMsgType type,
   }
 
   QString timestamp(QDateTime::currentDateTime().toUTC().toString("MMM dd yyyy hh:mm:ss"));
-  fprintf(logfp, "%s %s: %s\n", timestamp.toUtf8().data(), typestr, msg.toUtf8().data());
+  fprintf(logfp, "%s %s: %s\n", timestamp.toUtf8().data(), typestr, msg);
 }
+
+#if QT_VERSION >= QT_VERSION_CHECK(5,0,0)
+static void logMessageHandler(QtMsgType type,
+                          const QMessageLogContext& context,
+                          const QString& msg)
+{
+  Q_UNUSED(context);
+  logMsgHandler(type, msg.toUtf8().constData());
+}
+#endif
+
 
 /* Called at startup */
 static void logSystemInformation()
@@ -141,7 +149,11 @@ void logInit(const QString &filename)
   setvbuf(logfp, NULL, _IOLBF, 0); /* use line buffering */
 #endif
 
-  qInstallMessageHandler(logMsgHandler);
+#if QT_VERSION >= QT_VERSION_CHECK(5,0,0)
+  qInstallMessageHandler(logMessageHandler);
+#else
+  qInstallMsgHandler(logMsgHandler);
+#endif
 
   qDebug(APPNAME " %s (%s)", VERSION, COMMIT_ID);
   logSystemInformation();

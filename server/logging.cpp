@@ -24,9 +24,7 @@
 static FILE *logfp;
 
 /* Called by Qt's qDebug(), qWarning(), qCritical(), and qFatal() */
-static void logMsgHandler(QtMsgType type,
-                          const QMessageLogContext& context,
-                          const QString& msg)
+static void logMsgHandler(QtMsgType type, const char *msg)
 {
   Q_ASSERT(logfp != NULL);
 
@@ -52,12 +50,22 @@ static void logMsgHandler(QtMsgType type,
   if (logfp == stdout) {
     /* Standard output may be used with process monitoring daemons that add
      * their own timestamps, so just print the type and message. */
-    fprintf(logfp, "%s: %s\n", typestr, msg.toUtf8().data());
+    fprintf(logfp, "%s: %s\n", typestr, msg);
   } else {
     QString timestamp(QDateTime::currentDateTime().toUTC().toString("MMM dd yyyy hh:mm:ss"));
-    fprintf(logfp, "%s %s: %s\n", timestamp.toUtf8().data(), typestr, msg.toUtf8().data());
+    fprintf(logfp, "%s %s: %s\n", timestamp.toUtf8().data(), typestr, msg);
   }
 }
+
+#if QT_VERSION >= QT_VERSION_CHECK(5,0,0)
+static void logMessageHandler(QtMsgType type,
+                              const QMessageLogContext& context,
+                              const QString& msg)
+{
+  Q_UNUSED(context);
+  logMsgHandler(type, msg.toUtf8().constData());
+}
+#endif
 
 void logInit(const QString &filename)
 {
@@ -82,5 +90,10 @@ void logInit(const QString &filename)
   setvbuf(logfp, NULL, _IOLBF, 0); /* use line buffering */
 #endif
 
-  qInstallMessageHandler(logMsgHandler);
+#if QT_VERSION >= QT_VERSION_CHECK(5,0,0)
+  qInstallMessageHandler(logMessageHandler);
+#else
+  qInstallMsgHandler(logMsgHandler);
+#endif
+
 }
